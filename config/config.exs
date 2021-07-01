@@ -10,6 +10,10 @@ use Mix.Config
 config :twitter,
   ecto_repos: [Twitter.Repo]
 
+  config :twitter, Twitter.Repo,
+    migration_primary_key: [type: :binary_id],
+    migration_foreign_key: [type: :binary_id]
+
 # Configures the endpoint
 config :twitter, TwitterWeb.Endpoint,
   url: [host: "localhost"],
