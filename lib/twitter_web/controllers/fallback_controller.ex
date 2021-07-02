@@ -8,6 +8,13 @@ defmodule TwitterWeb.FallbackController do
     |> render("400.json", result: result)
   end
 
+  def call(conn, {:error, %{} = result}) do
+    conn
+    |> put_status(:bad_request)
+    |> put_view(TwitterWeb.ErrorView)
+    |> render("400.json", result: result)
+  end
+
   def call(conn, {:error, result}) do
     conn
     |> put_status(:internal_server_error)

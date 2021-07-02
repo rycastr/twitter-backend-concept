@@ -20,6 +20,12 @@ defmodule TwitterWeb.ErrorView do
     }
   end
 
+  def render("400.json", %{result: result}) do
+    %{
+      errors: result
+    }
+  end
+
   def render("500.json", _result) do
     %{
       errors: %{
