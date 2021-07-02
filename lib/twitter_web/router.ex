@@ -7,6 +7,8 @@ defmodule TwitterWeb.Router do
 
   scope "/api", TwitterWeb do
     pipe_through :api
+
+    post "/users", UsersController, :register
   end
 
   # Enables LiveDashboard only for development
