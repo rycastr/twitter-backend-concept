@@ -38,4 +38,35 @@ defmodule TwitterWeb.UsersControllerTest do
       assert {:ok, %{"aud" => "Joken"}} = TwitterWeb.Token.verify(access_token)
     end
   end
+
+  describe "auth/2" do
+    setup %{conn: conn} do
+      params = %{
+        "email" => "johndoe@example.com",
+        "name" => "John",
+        "username" => "johndoe",
+        "password" => "a1s2d3$4"
+      }
+
+      Twitter.UseCases.CreateUser.call(params)
+
+      {:ok, conn: conn}
+    end
+
+    test "when all params are valid, authenticate user and returns a valid access token", %{
+      conn: conn
+    } do
+      params = %{
+        "email" => "johndoe@example.com",
+        "password" => "a1s2d3$4"
+      }
+
+      %{"result" => %{"access_token" => access_token}} =
+        conn
+        |> post(Routes.users_path(conn, :auth), params)
+        |> json_response(:ok)
+
+      assert {:ok, %{"aud" => "Joken"}} = TwitterWeb.Token.verify(access_token)
+    end
+  end
 end
