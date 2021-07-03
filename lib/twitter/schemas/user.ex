@@ -2,6 +2,8 @@ defmodule Twitter.Schemas.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  # alias Twitter.Schemas.UserFollow
+
   @primary_key {:id, :binary_id, autogenerate: true}
 
   @required_fields [:email, :name, :username, :password]
@@ -12,6 +14,9 @@ defmodule Twitter.Schemas.User do
     field :username, :string
     field :password, :string, virtual: true
     field :password_hash, :string
+
+    # has_many :following, UserFollow, foreign_key: :from_id
+    # has_many :followers, UserFollow, foreign_key: :to_id
 
     timestamps()
   end
