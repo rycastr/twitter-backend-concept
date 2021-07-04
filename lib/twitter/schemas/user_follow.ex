@@ -24,6 +24,7 @@ defmodule Twitter.Schemas.UserFollow do
     |> validate_required(@required_fields)
     |> validate_change(:from_id, &validate_uuid/2)
     |> validate_change(:to_id, &validate_uuid/2)
+    |> check_constraint(:from_id, name: :from_and_to_cannot_be_equal)
     |> unique_constraint([:from_id, :to_id])
   end
 

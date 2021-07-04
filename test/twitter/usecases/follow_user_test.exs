@@ -72,6 +72,23 @@ defmodule Twitter.UseCases.FollowUserTest do
               }} = result
     end
 
+    test "when the from_id and to_id are equals, returns an changeset error", %{
+      user_one_id: user_one_id
+    } do
+      params = %{from_id: user_one_id, to_id: user_one_id}
+
+      result = FollowUser.call(params)
+
+      assert {:error,
+              %Ecto.Changeset{
+                errors: [
+                  from_id:
+                    {"is invalid",
+                     [constraint: :check, constraint_name: "from_and_to_cannot_be_equal"]}
+                ]
+              }} = result
+    end
+
     test "when all fields there are valid, returns a user_follow from database", %{
       user_one_id: user_one_id,
       user_two_id: user_two_id
