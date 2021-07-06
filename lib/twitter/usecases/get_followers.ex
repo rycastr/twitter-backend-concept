@@ -18,7 +18,7 @@ defmodule Twitter.UseCases.GetFollowers do
     from(uf in UserFollow, where: uf.to_id == ^to_id)
   end
 
-  defp build_preload_query() do
+  defp build_preload_query do
     from(u in User, select: map(u, [:id, :name, :username]))
   end
 
