@@ -29,7 +29,7 @@ defmodule Twitter.Schemas.UserFollow do
   end
 
   defp validate_uuid(:from_id, uuid) do
-    case Ecto.UUID.cast(uuid) do
+    case UUID.cast(uuid) do
       :error -> [from_id: "has invalid format"]
       _ -> []
     end
