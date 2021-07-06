@@ -6,11 +6,11 @@ defmodule Twitter.UseCases.GetFollowers do
 
   def call(%{"to_id" => to_id}) do
     from(uf in UserFollow, where: uf.to_id == ^to_id)
-    |> Twitter.Repo.all()
+    |> Repo.all()
     |> Repo.preload(from: from(u in User, select: map(u, [:id, :name, :username])))
     |> Enum.map(&get_from/1)
     |> handle_followers()
-    # |> Twitter.Repo.preload([:from])
+    # |> Repo.preload([:from])
   end
 
   defp get_from(%UserFollow{from: from}), do: from

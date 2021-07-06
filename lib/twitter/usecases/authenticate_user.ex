@@ -1,4 +1,5 @@
 defmodule Twitter.UseCases.AuthenticateUser do
+  alias Twitter.Repo
   alias Twitter.Schemas.User
 
   def call(%{"password" => password} = params) do
@@ -8,14 +9,14 @@ defmodule Twitter.UseCases.AuthenticateUser do
   end
 
   defp find_by(%{"email" => email}) do
-    case Twitter.Repo.get_by(User, email: email) do
+    case Repo.get_by(User, email: email) do
       nil -> {:error, %{email: ["email not exists"]}}
       user = %User{} -> {:ok, user}
     end
   end
 
   defp find_by(%{"username" => username}) do
-    case Twitter.Repo.get_by(User, username: username) do
+    case Repo.get_by(User, username: username) do
       nil -> {:error, %{username: ["username not exists"]}}
       user = %User{} -> {:ok, user}
     end

@@ -1,12 +1,13 @@
 defmodule Twitter.UseCases.UnfollowUser do
   import Ecto.Query
 
+  alias Twitter.Repo
   alias Twitter.Schemas.UserFollow
 
   def call(params) do
     params
     |> build_query()
-    |> Twitter.Repo.delete_all()
+    |> Repo.delete_all()
     |> handle_delete()
   end
 
