@@ -9,7 +9,7 @@ defmodule Twitter.UseCases.GetFollowers do
     |> build_query()
     |> Repo.all()
     |> Repo.preload(from: build_preload_query())
-    |> Enum.map(&get_from/1)
+    |> extract_from()
     |> handle_followers()
     # |> Repo.preload([:from])
   end
@@ -22,7 +22,10 @@ defmodule Twitter.UseCases.GetFollowers do
     from(u in User, select: map(u, [:id, :name, :username]))
   end
 
-  defp get_from(%UserFollow{from: from}), do: from
+  defp extract_from(user_follows) do
+    user_follows
+    |> Enum.map(fn %UserFollow{from: from} -> from end)
+  end
 
   defp handle_followers(followers) do
     {:ok, %{followers_count: length(followers), followers: followers}}
