@@ -28,16 +28,9 @@ defmodule Twitter.Schemas.UserFollow do
     |> unique_constraint([:from_id, :to_id])
   end
 
-  defp validate_uuid(:from_id, uuid) do
+  defp validate_uuid(field, uuid) do
     case UUID.cast(uuid) do
-      :error -> [from_id: "has invalid format"]
-      _ -> []
-    end
-  end
-
-  defp validate_uuid(:to_id, uuid) do
-    case UUID.cast(uuid) do
-      :error -> [to_id: "has invalid format"]
+      :error -> [{field, "has invalid format"}]
       _ -> []
     end
   end
